@@ -100,17 +100,17 @@ $  ./list_jobs.py
 #########################
 TITLE:     GNIP2012
 STATUS:    finished
-PROGRESS:  95.0 %
+PROGRESS:  100.0 %
 JOB URL:   https://historical.staging.gnip.com:443/accounts/shendrickson/publishers/twitter/historical/track/jobs/eeh2vte64.json
 #########################
 TITLE:     Justin Bieber 2009
 STATUS:    finished
-PROGRESS:  95.0 %
+PROGRESS:  100.0 %
 JOB URL:   https://historical.staging.gnip.com:443/accounts/shendrickson/publishers/twitter/historical/track/jobs/j5epx4e5c3.json
 #########################
 TITLE:     SXSW2010-2012
 STATUS:    finished
-PROGRESS:  95.0 %
+PROGRESS:  100.0 %
 JOB URL:   https://historical.staging.gnip.com:443/accounts/shendrickson/publishers/twitter/historical/track/jobs/sbxff05b8d.json
 
 
@@ -127,7 +127,7 @@ $  ./list_jobs.py -u  https://historical.staging.gnip.com:443/accounts/shendrick
 #########################
 TITLE:     SXSW2010-2012
 STATUS:    finished
-PROGRESS:  95.0 %
+PROGRESS:  100.0 %
 JOB URL:   https://historical.staging.gnip.com:443/accounts/shendrickson/publishers/twitter/historical/track/jobs/sbxff05b8d.json
 
 RESULT:
