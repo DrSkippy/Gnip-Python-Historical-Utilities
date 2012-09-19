@@ -1,7 +1,7 @@
                                  Python Library
                                       and
                              Command Line Utilities
-                       for Gnip Historical Snapshots API
+                       for Gnip Historical PowerTrack API
 
 
 The process for launching and retrieveing data for an historical snapshot job 
@@ -19,16 +19,21 @@ SETUP UTILITY
 First, set up your Gnip credentials.  There is a simple utility to create the local credential 
 file named ".gnip".
 
-    $ ./setup_gnip_creds.py 
-    Username: shendrickson@gnip.com    
-    Password: 
-    Password again: 
-    Endpoint URL. Enter your Account Name (eg https://historical.gnip.com:443/accounts/<account name>/): shendrickson
-    Done creating file ./.gnip
-    Be sure to run:
-    chmod og-w .gnip
+$ ./setup_gnip_creds.py 
+Username: shendrickson@gnip.com    
+Password: 
+Password again: 
+Endpoint URL. Enter your Account Name (eg https://historical.gnip.com:443/accounts/<account name>/): shendrickson
+Done creating file ./.gnip
+Be sure to run:
+chmod og-w .gnip
     
-    $ chmod og-w .gnip
+$ chmod og-w .gnip
+
+You will likely wish to run these utilities from other locations.  Be sure the export an
+updated PYTHONPATH
+
+$ export PYTHONPATH=${PYTHONPATH}:path-to-gnip-python-historical-utilities
 
 CREATE JOB
 ==========
