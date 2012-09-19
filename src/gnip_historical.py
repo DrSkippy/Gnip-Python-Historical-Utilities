@@ -238,9 +238,10 @@ class Quote(object):
     def __init__(self, quoteDict):
         # print str(quoteDict)
         if "costDollars" in quoteDict:
-            self.costDollars = float(quoteDict["costDollars"])
-        elif "estimatedCostDollars" in quoteDict:
-            self.costDollars = float(quoteDict["estimatedCostDollars"])
+            try:
+                self.costDollars = float(quoteDict["costDollars"])
+            except ValueError:
+                self.costDollars = -1
         else:
             self.costDollars = -1
         self.estimatedActivityCount = int(quoteDict["estimatedActivityCount"])
