@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 import sys
+import os
+import datetime
 import getpass
 import ConfigParser
 import shutil
@@ -37,3 +39,23 @@ with open("./.gnip","wb") as f:
 print "Done creating file ./.gnip"
 print "Be sure to run:\nchmod og-w .gnip"
 print "Configuration setup complete."
+print "\nUpdating path information in get_data_files.bash..."
+currentPath = os.getcwd()
+state = 0
+with open("./tmp","wb") as outf:
+    with open("./get_data_files.bash","rb") as inf:
+        for line in inf:
+            newline = line
+            if line.startswith("AUTOPATH="):
+                state = 1
+                newline = "# Auto updated: %s\n# %s"%(datetime.datetime.now(), line)
+            else:
+                if state == 1:
+                    newline = "AUTOPATH=%s\n"%currentPath + line
+                    state = 2
+            outf.write(newline)
+os.rename("./get_data_files.bash","./get_data_files.bash.bak")
+os.rename("./tmp","./get_data_files.bash")
+os.chmod("./get_data_files.bash", 0755 )
+print "Done."
+

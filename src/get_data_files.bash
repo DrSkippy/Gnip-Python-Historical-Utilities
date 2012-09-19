@@ -13,7 +13,11 @@ waitForNProcs()
 SLEEPTIME=15   # seconds
 MAXPROCS=8     # cores?
 procName=curl
-mangler="/home/shendrickson/Gnip-Python-Historical-Utilities/src/name_mangle.py"
+# to run different directory, update these
+AUTOPATH=.
+#
+export PYTHONPATH=${PYTHONPATH}:$AUTOPATH
+mangler="$AUTOPATH/name_mangle.py"
 
 if [ ! -e ./data ]; then
   mkdir ./data

@@ -3,3 +3,5 @@ project.json
 .gnip*
 *.pyc
 *.swp
+*.bak
+*.orig
