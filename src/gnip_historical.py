@@ -240,7 +240,7 @@ class Quote(object):
         if "costDollars" in quoteDict:
             try:
                 self.costDollars = float(quoteDict["costDollars"])
-            except ValueError:
+            except TypeError:
                 self.costDollars = -1
         else:
             self.costDollars = -1
