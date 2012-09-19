@@ -1,0 +1,26 @@
+#!/usr/bin/env python
+from gnip_historical_cmd import *
+import datetime
+class CreatJob(GnipHistoricalCmd):
+    def setOptions(self, parser):
+        parser.add_option("-f", "--filename", dest="fileName", default=None,
+	        help="File defining job (JSON)")
+        parser.add_option("-t", "--title", dest="title", default="Project started %s"%datetime.datetime.now(),
+	        help="Title of project, this title supercedes title in file.")
+
+    def __call__(self):
+        if self.options.fileName is None:
+            print "Please provide a job description file. Use create_job.py -h for more information."
+        else:    
+            self.gnipHistorical.jobPars = JobParameters(self.options.title, jobFileName = self.options.fileName)
+            print "#"*35
+            print "CREATING JOB: (%s)"%self.options.title
+            print "PARAMETERS:"
+            print str(self.gnipHistorical.jobPars)
+            print "RESPONSE:"
+            res = self.gnipHistorical.createJob()
+            print str(self.gnipHistorical.createJob())
+            if res.jobURL is not None:
+                self.updateURLConfig(url = res.jobURL)
+
+CreatJob()()
