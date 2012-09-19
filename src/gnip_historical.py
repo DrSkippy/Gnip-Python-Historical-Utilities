@@ -237,7 +237,12 @@ class Result(object):
 class Quote(object):
     def __init__(self, quoteDict):
         # print str(quoteDict)
-        self.costDollars = float(quoteDict["costDollars"])
+        if "costDollars" in quoteDict:
+            self.costDollars = float(quoteDict["costDollars"])
+        elif "estimatedCostDollars" in quoteDict:
+            self.costDollars = float(quoteDict["estimatedCostDollars"])
+        else:
+            self.costDollars = -1
         self.estimatedActivityCount = int(quoteDict["estimatedActivityCount"])
         self.estimatedDurationHours = float(quoteDict["estimatedDurationHours"])
         self.estimatedFileSizeMb = float(quoteDict["estimatedFileSizeMb"])
