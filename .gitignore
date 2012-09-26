@@ -1,7 +1,6 @@
 data_files.txt
-project.json
 .gnip*
 *.pyc
 *.swp
 *.bak
-*.orig
+get_data_files.bash
