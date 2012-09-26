@@ -42,8 +42,8 @@ print "Configuration setup complete."
 print "\nUpdating path information in get_data_files.bash..."
 currentPath = os.getcwd()
 state = 0
-with open("./tmp","wb") as outf:
-    with open("./get_data_files.bash","rb") as inf:
+with open("./get_data_files.bash","wb") as outf:
+    with open("./get_data_files.bash.orig","rb") as inf:
         for line in inf:
             newline = line
             if line.startswith("AUTOPATH="):
@@ -54,8 +54,6 @@ with open("./tmp","wb") as outf:
                     newline = "AUTOPATH=%s\n"%currentPath + line
                     state = 2
             outf.write(newline)
-os.rename("./get_data_files.bash","./get_data_files.bash.bak")
-os.rename("./tmp","./get_data_files.bash")
 os.chmod("./get_data_files.bash", 0755 )
 print "Done."
 
