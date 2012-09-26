@@ -165,7 +165,7 @@ $ ./get_data_files.bash
 ...
 
 This will lauch up to 8 simultaneousl cUrl connections to S3 to download the files 
-into a local ./data/year/month/dat/hour... directory tree by date.
+into a local ./data/year/month/day/hour... directory tree (see name_mangle.py for details).
 
 ACCEPT/REJECT JOB
 =================
