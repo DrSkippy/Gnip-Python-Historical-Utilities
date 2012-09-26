@@ -4,7 +4,7 @@
                        for Gnip Historical PowerTrack API
 
 
-The process for launching and retrieveing data for an historical snapshot job 
+The process for launching and retrieveing data for an historical historical job 
 requires only a few steps:
   1) create job
   2) retrieve and review job quote
@@ -106,17 +106,17 @@ $  ./list_jobs.py
 TITLE:     GNIP2012
 STATUS:    finished
 PROGRESS:  100.0 %
-JOB URL:   https://historical.staging.gnip.com:443/accounts/shendrickson/publishers/twitter/historical/track/jobs/eeh2vte64.json
+JOB URL:   https://historical.gnip.com:443/accounts/shendrickson/publishers/twitter/historical/track/jobs/eeh2vte64.json
 #########################
 TITLE:     Justin Bieber 2009
 STATUS:    finished
 PROGRESS:  100.0 %
-JOB URL:   https://historical.staging.gnip.com:443/accounts/shendrickson/publishers/twitter/historical/track/jobs/j5epx4e5c3.json
+JOB URL:   https://historical.gnip.com:443/accounts/shendrickson/publishers/twitter/historical/track/jobs/j5epx4e5c3.json
 #########################
 TITLE:     SXSW2010-2012
 STATUS:    finished
 PROGRESS:  100.0 %
-JOB URL:   https://historical.staging.gnip.com:443/accounts/shendrickson/publishers/twitter/historical/track/jobs/sbxff05b8d.json
+JOB URL:   https://historical.gnip.com:443/accounts/shendrickson/publishers/twitter/historical/track/jobs/sbxff05b8d.json
 
 
 To see detailed information or download data filelist, 
@@ -128,27 +128,27 @@ DOWNLOAD URLS OF FILES CONTAINING DATA
 To retrieve the file locations for the data files this job created on S3, pass 
 the job URL with the -u flag (or if you used -u for this job previously, just use -l--see help),
 
-$  ./list_jobs.py -u  https://historical.staging.gnip.com:443/accounts/shendrickson/publishers/twitter/historical/track/jobs/sbxff05b8d.json
+$  ./list_jobs.py -u  https://historical.gnip.com:443/accounts/shendrickson/publishers/twitter/historical/track/jobs/sbxff05b8d.json
 #########################
 TITLE:     SXSW2010-2012
 STATUS:    finished
 PROGRESS:  100.0 %
-JOB URL:   https://historical.staging.gnip.com:443/accounts/shendrickson/publishers/twitter/historical/track/jobs/sbxff05b8d.json
+JOB URL:   https://historical.gnip.com:443/accounts/shendrickson/publishers/twitter/historical/track/jobs/sbxff05b8d.json
 
 RESULT:
  Job completed at ........ 2012-09-01 04:35:23
  No. of Activities ....... -1
  No. of Files ............ -1
  Files size (MB) ......... -1
- Data URL ................ https://historical.staging.gnip.com:443/accounts/shendrickson/publishers/twitter/historical/track/jobs/sbxff05b8d/results.json
+ Data URL ................ https://historical.gnip.com:443/accounts/shendrickson/publishers/twitter/historical/track/jobs/sbxff05b8d/results.json
 DATA SET:
  No. of URLs ............. 131,211
  File size (bytes)........ 2,151,308,466
- Files (URLs) ............ https://archive.replay.snapshots.review.s3.amazonaws.com/snapshots/twitter/track/activity-streams/shendrickson/2012/08/28/20100101-20120815_sbxff05b8d/2010/01/01/00/00_activities.json.gz?AWSAccessKeyId=AKIAJ7O2S22DN2NDN7UQ&Expires=1349066046&Signature=hDSc0a%2BRQeG%2BknaSAWpzSUoM1F0%3D
-https://archive.replay.snapshots.review.s3.amazonaws.com/snapshots/twitter/track/activity-streams/shendrickson/2012/08/28/20100101-20120815_sbxff05b8d/2010/01/01/00/10_activities.json.gz?AWSAccessKeyId=AKIAJ7O2S22DN2NDN7UQ&Expires=1349066046&Signature=DOZlXKuMByv5uKgmw4QrCOpmEVw%3D
-https://archive.replay.snapshots.review.s3.amazonaws.com/snapshots/twitter/track/activity-streams/shendrickson/2012/08/28/20100101-20120815_sbxff05b8d/2010/01/01/00/20_activities.json.gz?AWSAccessKeyId=AKIAJ7O2S22DN2NDN7UQ&Expires=1349066046&Signature=X4SFTxwM2X9Y7qwgKCwG6fH8h7w%3D
-https://archive.replay.snapshots.review.s3.amazonaws.com/snapshots/twitter/track/activity-streams/shendrickson/2012/08/28/20100101-20120815_sbxff05b8d/2010/01/01/00/30_activities.json.gz?AWSAccessKeyId=AKIAJ7O2S22DN2NDN7UQ&Expires=1349066046&Signature=WVubKurX%2BAzYeZLX9UnBamSCrHg%3D
-https://archive.replay.snapshots.review.s3.amazonaws.com/snapshots/twitter/track/activity-streams/shendrickson/2012/08/28/20100101-20120815_sbxff05b8d/2010/01/01/00/40_activities.json.gz?AWSAccessKeyId=AKIAJ7O2S22DN2NDN7UQ&Expires=1349066046&Signature=OG9ygKlXNxFvJLlAEWi3hes5yyw%3D
+ Files (URLs) ............ https://archive.replay.historicals.review.s3.amazonaws.com/historicals/twitter/track/activity-streams/shendrickson/2012/08/28/20100101-20120815_sbxff05b8d/2010/01/01/00/00_activities.json.gz?AWSAccessKeyId=AKIAJ7O2S22DN2NDN7UQ&Expires=1349066046&Signature=hDSc0a%2BRQeG%2BknaSAWpzSUoM1F0%3D
+https://archive.replay.historicals.review.s3.amazonaws.com/historicals/twitter/track/activity-streams/shendrickson/2012/08/28/20100101-20120815_sbxff05b8d/2010/01/01/00/10_activities.json.gz?AWSAccessKeyId=AKIAJ7O2S22DN2NDN7UQ&Expires=1349066046&Signature=DOZlXKuMByv5uKgmw4QrCOpmEVw%3D
+https://archive.replay.historicals.review.s3.amazonaws.com/historicals/twitter/track/activity-streams/shendrickson/2012/08/28/20100101-20120815_sbxff05b8d/2010/01/01/00/20_activities.json.gz?AWSAccessKeyId=AKIAJ7O2S22DN2NDN7UQ&Expires=1349066046&Signature=X4SFTxwM2X9Y7qwgKCwG6fH8h7w%3D
+https://archive.replay.historicals.review.s3.amazonaws.com/historicals/twitter/track/activity-streams/shendrickson/2012/08/28/20100101-20120815_sbxff05b8d/2010/01/01/00/30_activities.json.gz?AWSAccessKeyId=AKIAJ7O2S22DN2NDN7UQ&Expires=1349066046&Signature=WVubKurX%2BAzYeZLX9UnBamSCrHg%3D
+https://archive.replay.historicals.review.s3.amazonaws.com/historicals/twitter/track/activity-streams/shendrickson/2012/08/28/20100101-20120815_sbxff05b8d/2010/01/01/00/40_activities.json.gz?AWSAccessKeyId=AKIAJ7O2S22DN2NDN7UQ&Expires=1349066046&Signature=OG9ygKlXNxFvJLlAEWi3hes5yyw%3D
 ...
 
 Writing files to data_files.txt...
@@ -171,11 +171,11 @@ ACCEPT/REJECT JOB
 =================
 After a job is quoted, you can accept or reject the job.  The job will not start until it is accepted.
 
-$ ./accept_job -u https://snapshot.staging.gnip.com:443/accounts/shendrickson/publishers/twitter/snapshots/track/jobs/c9pe0day6h.json
+$ ./accept_job -u https://historical.gnip.com:443/accounts/shendrickson/publishers/twitter/historicals/track/jobs/c9pe0day6h.json
 
 or 
 
-$ ./reject_job -u https://snapshot.staging.gnip.com:443/accounts/shendrickson/publishers/twitter/snapshots/track/jobs/c9pe0day6h.json
+$ ./reject_job -u https://historical.gnip.com:443/accounts/shendrickson/publishers/twitter/historicals/track/jobs/c9pe0day6h.json
 
 The module gnip_historical.py provides additional functionality you can access programatically.
 
