@@ -51,7 +51,9 @@ class JobParameters(object):
             except IOError,e:
                 sys.stderr.write("Failed to open rules file. (%s)\n"%e)
         # Given title supercedes file title
-        self.setTitle(title)
+        if self.getTitle().startswith("Project started 2"):
+            if title is not None:
+                self.setTitle(title)
 
     def writeToFile(self, jobFileName):
         with codecs.open(jobFileName,"wb","utf-8") as tmpJobFile:
@@ -59,6 +61,11 @@ class JobParameters(object):
 
     def setTitle(self, t):
         self.job["title"] = t
+
+    def getTitle(self):
+        if "title" not in self.job or self.job["title"] is None:
+            self.setTitle("Project started %s"%datetime.datetime.now())
+        return self.job["title"]
 
     def parseDate(self, d):
         if len(d) == 16:

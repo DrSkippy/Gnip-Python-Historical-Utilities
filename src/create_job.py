@@ -5,8 +5,8 @@ class CreatJob(GnipHistoricalCmd):
     def setOptions(self, parser):
         parser.add_option("-f", "--filename", dest="fileName", default=None,
 	        help="File defining job (JSON)")
-        parser.add_option("-t", "--title", dest="title", default="Project started %s"%datetime.datetime.now(),
-	        help="Title of project, this title supercedes title in file.")
+        parser.add_option("-t", "--title", dest="title", default=None,
+	        help="Title of project, this title supercedes title in file if set.")
 
     def __call__(self):
         if self.options.fileName is None:
