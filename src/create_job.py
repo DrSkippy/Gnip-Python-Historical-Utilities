@@ -19,7 +19,7 @@ class CreatJob(GnipHistoricalCmd):
             print str(self.gnipHistorical.jobPars)
             print "RESPONSE:"
             res = self.gnipHistorical.createJob()
-            print str(self.gnipHistorical.createJob())
+            print str(res)
             if res.jobURL is not None:
                 self.updateURLConfig(url = res.jobURL)
 
