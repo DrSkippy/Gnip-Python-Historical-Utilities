@@ -30,8 +30,11 @@ chmod og-w .gnip
     
 $ chmod og-w .gnip
 
-You will likely wish to run these utilities from other locations.  Be sure the export an
-updated PYTHONPATH
+If you use the example JSON job description, be sure to change the "serviceUserNameField"
+to your own, i.e., for Twitter, use your Twitter handle.
+
+You will likely wish to run these utilities from other directory locations so be sure the export an
+updated PYTHONPATH,
 
 $ export PYTHONPATH=${PYTHONPATH}:path-to-gnip-python-historical-utilities
 
@@ -53,7 +56,7 @@ details). the fromDate and toDate are in the format YYYYmmddHHMM:
             "value" : "bieber"
         }
     ],
-    "serviceUsername" : "DrSkippy27",
+    "serviceUsername" : "PUT_YOUR_TWITTER_HANDLE_HERE",
     "streamType" : "track",
     "title" : "BieberJob1",
     "toDate" : "201201010001"
