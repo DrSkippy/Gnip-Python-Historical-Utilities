@@ -51,9 +51,8 @@ class JobParameters(object):
             except IOError,e:
                 sys.stderr.write("Failed to open rules file. (%s)\n"%e)
         # Given title supercedes file title
-        if self.getTitle().startswith("Project started 2"):
-            if title is not None:
-                self.setTitle(title)
+        if title is not None:
+            self.setTitle(title)
 
     def writeToFile(self, jobFileName):
         with codecs.open(jobFileName,"wb","utf-8") as tmpJobFile:
@@ -182,8 +181,8 @@ class DataSetResults(object):
     
     def __repr__(self):
         res = 'DATA SET:\n'
-        res += ' No. of URLs ............. {:,}\n'.format(self.URLCount)
-        res += ' File size (bytes)........ {:,}\n'.format(self.fileSizeBytes)
+        res += ' No. of URLs ............. {0:,}\n'.format(self.URLCount)
+        res += ' File size (bytes)........ {0:,}\n'.format(self.fileSizeBytes)
         if len(self.dataURLs) > 5:
             tmpList = self.dataURLs[:5] + ["..."]
         else:
@@ -233,9 +232,9 @@ class Result(object):
     def __repr__(self):
         res = 'RESULT:\n'
         res += ' Job completed at ........ %s\n'%(self.completedAt)
-        res += ' No. of Activities ....... {:,}\n'.format(self.activityCount)
-        res += ' No. of Files ............ {:,}\n'.format(self.fileCount)
-        res += ' Files size (MB) ......... {:,}\n'.format(self.fileSize)
+        res += ' No. of Activities ....... {0:,}\n'.format(self.activityCount)
+        res += ' No. of Files ............ {0:,}\n'.format(self.fileCount)
+        res += ' Files size (MB) ......... {0:,}\n'.format(self.fileSize)
         res += ' Data URL ................ %s\n'%(self.dataFileURL)
         if self.dataSetResult is not None:
             res += str(self.dataSetResult)
@@ -262,9 +261,9 @@ class Quote(object):
     def __repr__(self):
         res = 'QUOTE:\n'
         res += ' Est. Cost ............... $ %.2f\n'%(self.costDollars)
-        res += ' Est. No. of Activities .. {:,}\n'.format(self.estimatedActivityCount)
+        res += ' Est. No. of Activities .. {0:,}\n'.format(self.estimatedActivityCount)
         res += ' Est. Hours to Complete .. %.1f\n'%(self.estimatedDurationHours)
-        res += ' Est. # filesize (MB)..... {:,}\n'.format(self.estimatedFileSizeMb)
+        res += ' Est. # filesize (MB)..... {0:,}\n'.format(self.estimatedFileSizeMb)
         res += ' Expires at .............. %s\n'%(self.expiresAt)
         return res
 
