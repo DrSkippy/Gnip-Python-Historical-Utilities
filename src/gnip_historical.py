@@ -10,6 +10,9 @@ DATEFMT = "%Y-%m-%dT%H:%M:%S+00:00"
 DATEFMTZ ="%Y-%m-%dT%H:%M:%SZ"
 DATEFMTS = "%Y%m%d%H%M"
 
+#
+#
+#
 class RequestWithMethod(urllib2.Request):
     # extend request to include explicit method
     def __init__(self, URL, method, data=None, headers={}):
@@ -22,6 +25,9 @@ class RequestWithMethod(urllib2.Request):
         else:
             return urllib2.Request.get_method(self) 
 
+#
+#
+#
 class JobParameters(object):
     # Parses job description json from file or provides methods for building programatically
     def __init__(self, title, jobDict = None, jobFileName = None):
@@ -141,9 +147,12 @@ class JobParameters(object):
 
 # Fixes legacy problem with urls returned from staging server
 # It is likely you can replace this with "return u"
-def repairStagingURLs(u):
-    return u.replace("snapshots", "historical").replace("snapshot", "historical")
+#def repairStagingURLs(u):
+#    return u.replace("snapshots", "historical").replace("snapshot", "historical")
 
+#
+#
+#
 class DataSetResults(object):
     def __init__(self, resDict):
         #print resDict.keys()
@@ -198,6 +207,9 @@ class DataSetResults(object):
             res += ' Suspect (URLs) .......... %s\n'%(tmpStr)
         return res
 
+#
+#
+#
 class Result(object):
     def __init__(self, resDict, gnipHist):
         #print str(resDict)
@@ -214,7 +226,8 @@ class Result(object):
             self.fileSize = float(resDict["fileSizeMb"])
         except TypeError:
             self.fileSize = -1
-        self.dataFileURL = repairStagingURLs(resDict["dataURL"])
+        #self.dataFileURL = repairStagingURLs(resDict["dataURL"])
+        self.dataFileURL = resDict["dataURL"]
         self.gnipHist = gnipHist
         self.dataSetResult = None
         self.getDataSetResult()
@@ -240,6 +253,9 @@ class Result(object):
             res += str(self.dataSetResult)
         return res
 
+#
+#
+#
 class Quote(object):
     def __init__(self, quoteDict):
         # print str(quoteDict)
@@ -267,6 +283,9 @@ class Quote(object):
         res += ' Expires at .............. %s\n'%(self.expiresAt)
         return res
 
+#
+#
+#
 class Status(object):
     """This and jobParameters have the same base class?"""
     def __init__(self, statusDict, gnipHist=None):
@@ -283,7 +302,8 @@ class Status(object):
             self.streamType = statusDict["streamType"]
             self.fromDate = datetime.datetime.strptime(statusDict["fromDate"], DATEFMTS)
             self.toDate = datetime.datetime.strptime(statusDict["toDate"], DATEFMTS)
-            self.jobURL = repairStagingURLs(statusDict["jobURL"])
+            # self.jobURL = repairStagingURLs(statusDict["jobURL"])
+            self.jobURL = statusDict["jobURL"]
             # Possible job progress
             self.requestedBy = self.set("requestedBy", statusDict)
             self.account = self.set("account", statusDict)
@@ -342,7 +362,9 @@ class Status(object):
             res += str(self.result)
         return res
 
-
+#
+#
+#
 class GnipHistorical(object):
     def __init__(self, UN, PWD, baseUrl, jParsObj = None):
         self.base64string = base64.encodestring('%s:%s' % (UN, PWD)).replace('\n', '')
@@ -465,6 +487,9 @@ class GnipHistorical(object):
             sys.stderr.write("No results available.\n")
             return None
 
+#
+#
+#
 if __name__ == '__main__':
     # Run some simple demos/tests
     ####################################
