@@ -24,7 +24,6 @@ class RequestWithMethod(urllib2.Request):
             return self._method
         else:
             return urllib2.Request.get_method(self) 
-
 #
 #
 #
@@ -293,7 +292,7 @@ class Status(object):
         if statusDict is None:
             self.status = 'Error retrieving Job status'
             self.statusMessage = 'Please verify your connection parameters and network connection'
-            self.title = None
+            self.title = "N/A"
             self.jobURL = None
         else:
             #
@@ -404,8 +403,7 @@ class GnipHistorical(object):
             response = urllib2.urlopen(req)
             res = response.read()
         except urllib2.URLError, reason:
-            sys.stderr.write("Check parameters, URL and authentication. (%s)\n"%reason)
-            sys.stderr.write("%s\n\n"%reason)
+            sys.stderr.write("Check parameters, URL and authentication and validate job JSON. (%s)\n\n\n"%reason)
             return None
         try:
             return json.loads(res)
@@ -426,8 +424,7 @@ class GnipHistorical(object):
             response = urllib2.urlopen(req)
             res = response.read()
         except urllib2.URLError, reason:
-            sys.stderr.write("Check parameters, URL and authentication. (%s)\n"%reason)
-            sys.stderr.write("%s\n\n"%reason.read())
+            sys.stderr.write("Check parameters, URL and authentication. (%s)\n\n\n"%reason)
             return None
         try:
             return json.loads(res)
