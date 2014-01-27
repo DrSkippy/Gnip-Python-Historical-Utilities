@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from gnip_historical_cmd import *
+from gnip_historical.gnip_historical_cmd import *
 class AcceptJob(GnipHistoricalCmd):
     def __call__(self):
         if self.userUrl is None:
