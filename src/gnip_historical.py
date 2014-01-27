@@ -5,13 +5,12 @@ import json
 import sys
 import datetime
 import codecs
+import re
 
-DATEFMT = "%Y-%m-%dT%H:%M:%S+00:00"
-DATEFMTZ ="%Y-%m-%dT%H:%M:%SZ"
+DATE_RE = re.compile("[0-9]{4}.[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}")
+DATEFMT = "%Y-%m-%dT%H:%M:%S"
 DATEFMTS = "%Y%m%d%H%M"
 
-#
-#
 #
 class RequestWithMethod(urllib2.Request):
     # extend request to include explicit method
@@ -25,11 +24,10 @@ class RequestWithMethod(urllib2.Request):
         else:
             return urllib2.Request.get_method(self) 
 #
-#
-#
 class JobParameters(object):
     # Parses job description json from file or provides methods for building programatically
     def __init__(self, title, jobDict = None, jobFileName = None):
+        # create the basic job json structure
         self.job = {
             "publisher": "twitter",
             "streamType": "track",
@@ -40,9 +38,12 @@ class JobParameters(object):
             "serviceUsername": "default",
             "rules": []
             }
+        # pass a job dict into object?
         if jobDict is not None:
+            # over write default
             self.job = jobDict
         elif jobFileName is not None:
+            # lastly, try to read json from file
             try:
                 with codecs.open(jobFileName,"rb","utf-8") as tmpJobFile:
                     tmp = tmpJobFile.read()
@@ -72,38 +73,24 @@ class JobParameters(object):
         return self.job["title"]
 
     def parseDate(self, d):
-        if len(d) == 16:
-            dateFmtStr = DATEFMT[:14]
-        elif len(d) == 19:
-            dateFmtStr = DATEFMT[:17]
-        elif len(d) == 12:
-            dateFmtStr = DATEFMTS
-        else:
-            dateFmtStr = DATEFMT
-        return datetime.datetime.strptime(d, dateFmtStr)
+        res = d
+        if not isinstance(d, datetime.datetime):
+            dtstr = DATE_RE.search(d).group(0)
+            res = datetime.datetime.strptime(dtstr, DATEFMT)
+        return res
 
     def fmtDate(self, dateObj):
-        return dateObj.strftime("%Y%m%d%H%M")
+        return dateObj.strftime(DATEFMTS)
     
     def setFromDate(self, dateObj):
-        try:
-            dateObj.min
-            self.fromDateObj = dateObj
-        except AttributeError:
-            # oops, it's a string
-            self.fromDateObj = self.parseDate(dateObj)
+        self.fromDateObj = self.parseDate(dateObj)
         self.job["fromDate"] = self.fmtDate(self.fromDateObj)
 
     def getFromDate(self):
         return self.fromDateObj
 
     def setToDate(self, dateObj):
-        try:
-            dateObj.min
-            self.toDateObj = dateObj
-        except AttributeError:
-            # oops, it's a string
-            self.toDateObj = self.parseDate(dateObj)
+        self.toDateObj = self.parseDate(dateObj)
         self.job["toDate"] = self.fmtDate(self.toDateObj)
 
     def getToDate(self):
@@ -138,19 +125,16 @@ class JobParameters(object):
         else:
             self.job["rules"].append({"value": rule})
 
+    def addRuleList(self, ruleList):
+        # ruleList is a list of dicts, over writes existing list
+        self.job["rules"] = ruleList
+
     def __str__(self):
         if self.toDateObj > self.fromDateObj and self.job["rules"] != []:
             return json.dumps(self.job)
         else:
             raise ValueError("Check that fromdDate < toDate and that you have set rules.")
 
-# Fixes legacy problem with urls returned from staging server
-# It is likely you can replace this with "return u"
-#def repairStagingURLs(u):
-#    return u.replace("snapshots", "historical").replace("snapshot", "historical")
-
-#
-#
 #
 class DataSetResults(object):
     def __init__(self, resDict):
