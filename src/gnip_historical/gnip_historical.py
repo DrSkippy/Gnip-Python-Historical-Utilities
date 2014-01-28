@@ -81,7 +81,7 @@ class DataSetResults(object):
 class Result(object):
     def __init__(self, resDict, gnipHist):
         #print str(resDict)
-        self.completedAt = datetime.datetime.strptime(resDict["completedAt"],DATEFMTZ)
+        self.completedAt = datetime.datetime.strptime(DATE_RE.search(resDict["completedAt"]).group(0),DATEFMT)
         try:
             self.activityCount = int(resDict["activityCount"])
         except TypeError:
@@ -138,7 +138,7 @@ class Quote(object):
         self.estimatedDurationHours = float(quoteDict["estimatedDurationHours"])
         self.estimatedFileSizeMb = float(quoteDict["estimatedFileSizeMb"])
         if "expiresAt" in quoteDict and quoteDict["expiresAt"] is not None:
-            self.expiresAt = datetime.datetime.strptime(quoteDict["expiresAt"], DATEFMTZ)
+            self.expiresAt = datetime.datetime.strptime(DATE_RE.search(quoteDict["expiresAt"]).group(0), DATEFMT)
         else:
             self.expiresAt = "N/A"
 
@@ -183,11 +183,11 @@ class Status(object):
             else:
                 self.percentComplete = 0.0
             if "requestedAt" in statusDict:
-                self.requestedAt = datetime.datetime.strptime(statusDict["requestedAt"], DATEFMTZ)
+                self.requestedAt = datetime.datetime.strptime(DATE_RE.search(statusDict["requestedAt"]).group(0), DATEFMT)
             else:
                 self.requestedAt = None
             if "acceptedAt" in statusDict: 
-                self.acceptedAt = datetime.datetime.strptime(statusDict["acceptedAt"],DATEFMTZ)
+                self.acceptedAt = datetime.datetime.strptime(DATE_RE.search(statusDict["acceptedAt"]).group(0),DATEFMT)
                 self.acceptedBy = statusDict["acceptedBy"]
             else:
                 self.acceptedAt = None

@@ -14,7 +14,7 @@ class CreatJob(GnipHistoricalCmd):
         else:    
             self.gnipHistorical.jobPars = JobParameters(self.options.title, jobFileName = self.options.fileName)
             print "#"*35
-            print "CREATING JOB: (%s)"%self.options.title
+            print "CREATING JOB: (%s)"%self.gnipHistorical.jobPars.getTitle()
             print "PARAMETERS:"
             print str(self.gnipHistorical.jobPars)
             print "RESPONSE:"

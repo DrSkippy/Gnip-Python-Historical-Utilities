@@ -62,8 +62,11 @@ class JobParameters(object):
     def parseDate(self, d):
         res = d
         if not isinstance(d, datetime.datetime):
-            dtstr = DATE_RE.search(d).group(0)
-            res = datetime.datetime.strptime(dtstr, DATEFMT)
+            if "-" in d or ":" in d:
+                dtstr = DATE_RE.search(d).group(0)
+                res = datetime.datetime.strptime(dtstr, DATEFMT)
+            else:
+                res = datetime.datetime.strptime(d, DATEFMTS)
         return res
 
     def fmtDate(self, dateObj):
