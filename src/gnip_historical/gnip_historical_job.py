@@ -38,7 +38,12 @@ class JobParameters(object):
                         tmpJob = json.loads(tmp)
                     except Exception, e:
                         sys.stderr.write("Failed to parse input JSON. (%s)\n"%e)
-                self.job = tmpJob
+                try:
+                    self.job = tmpJob
+                except UnboundLocalError as e:
+                    #sys.stderr.write("\nError: {}\n".format(e))
+                    sys.stderr.write("\nExiting... ({})\n\n".format(e))
+                    sys.exit()
                 self.setToDate(tmpJob["toDate"])
                 self.setFromDate(tmpJob["fromDate"])
             except IOError,e:
