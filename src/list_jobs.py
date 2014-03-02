@@ -8,7 +8,7 @@ class ListJobs(GnipHistoricalCmd):
         parser.add_option("-d", "--since-date", dest="sinceDateString", default=None, 
                 help="Only list jobs after date, (default 2012-01-01T00:00:00)")
         parser.add_option("-s", "--status", dest="statusString", default=None,
-            help="Only list jobs with a specific status (options: open, quoted, accepted, rejected, running, or delivered")
+            help="Only list jobs with a specific status (options: open, quoted, accepted, rejected, running, or delivered)")
 
 
     # available statuses: rejected, accepted, running, quoted
