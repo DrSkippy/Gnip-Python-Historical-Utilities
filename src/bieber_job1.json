@@ -1,1 +1,1 @@
-{"publisher": "twitter", "streamType": "track", "dataFormat": "activity-streams", "fromDate": "201201010000", "toDate": "201201010001", "rules": [{"tag": "bestRuleEver", "value": "bieber"}], "title": "BieberJob1", "serviceUsername": "YOUR_TWITTER_HANDLE"}
+{"publisher": "twitter", "streamType": "track", "dataFormat": "activity-streams", "fromDate": "201201010000", "toDate": "201201010001", "rules": [{"tag": "bestRuleEver", "value": "bieber"}], "title": "BieberJob1"}

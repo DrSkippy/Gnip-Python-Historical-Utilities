@@ -1,6 +1,4 @@
 #!/usr/bin/env python
-import urllib2
-import base64
 import json
 import sys
 import datetime
@@ -9,7 +7,7 @@ import re
 
 DATE_RE = re.compile("[0-9]{4}.[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}")
 DATEFMT = "%Y-%m-%dT%H:%M:%S"
-DATEFMTS = "%Y%m%d%H%M"
+SHORT_DATEFMT = "%Y%m%d%H%M%S"
 #
 class JobParameters(object):
     # Parses job description json from file or provides methods for building programatically
@@ -22,7 +20,7 @@ class JobParameters(object):
             "fromDate": None,
             "toDate": None,
             "title": title,
-            "serviceUsername": "default",
+            # depricated  "serviceUsername": "default",
             "rules": []
             }
         # pass a job dict into object?
@@ -71,11 +69,11 @@ class JobParameters(object):
                 dtstr = DATE_RE.search(d).group(0)
                 res = datetime.datetime.strptime(dtstr, DATEFMT)
             else:
-                res = datetime.datetime.strptime(d, DATEFMTS)
+                res = datetime.datetime.strptime(d, SHORT_DATEFMT)
         return res
 
     def fmtDate(self, dateObj):
-        return dateObj.strftime(DATEFMTS)
+        return dateObj.strftime(SHORT_DATEFMT)
     
     def setFromDate(self, dateObj):
         self.fromDateObj = self.parseDate(dateObj)
@@ -94,8 +92,8 @@ class JobParameters(object):
     def duration(self):
         return self.fromDateObj-self.toDateObj
 
-    def setUser(self, username):
-        self.job["serviceUsername"] = username
+# depricated     def setUser(self, username):
+# depricated         self.job["serviceUsername"] = username
 
     def setOriginalDataFormat(self):
         self.job["dataFormat"] = "original"
