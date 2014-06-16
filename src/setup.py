@@ -10,5 +10,5 @@ setup(
     url='http://pypi.python.org/pypi/gnip-historical/',
     license='LICENSE.txt',
     description='Gnip Historical libarary and command scripts.',
-    long_description=open('README.txt').read(),
+    long_description=open('../README').read(),
 )
