@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
     name='gnip-historical',
-    version='0.2.0',
+    version='0.3.0',
     author='Scott Hendrickson, Brian Lehman',
     author_email='scott@drskippy.net',
     packages=['gnip_historical'],

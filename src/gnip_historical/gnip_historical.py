@@ -4,8 +4,6 @@ import base64
 import json
 import sys
 import datetime
-import codecs
-import re
 from gnip_historical_job import *
 
 #
@@ -168,8 +166,8 @@ class Status(object):
             self.title = statusDict["title"]
             self.publisher = statusDict["publisher"]
             self.streamType = statusDict["streamType"]
-            self.fromDate = datetime.datetime.strptime(statusDict["fromDate"], DATEFMTS)
-            self.toDate = datetime.datetime.strptime(statusDict["toDate"], DATEFMTS)
+            self.fromDate = datetime.datetime.strptime(statusDict["fromDate"], SHORT_DATEFMT)
+            self.toDate = datetime.datetime.strptime(statusDict["toDate"], SHORT_DATEFMT)
             # self.jobURL = repairStagingURLs(statusDict["jobURL"])
             self.jobURL = statusDict["jobURL"]
             # Possible job progress
