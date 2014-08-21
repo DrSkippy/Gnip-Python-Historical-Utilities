@@ -39,6 +39,7 @@ updated ``PYTHONPATH``,
 You can, alternatively, set up a symlink called ``data`` within the repository directory, pointing to your  
 data destination.
 
+
 CREATE JOB
 ==========
 Create a job description by editing the example JSON file provided (``bieber_job1.json``).
@@ -49,6 +50,7 @@ details). the fromDate and toDate are in the format YYYYmmddHHMM:
     {
         "dataFormat" : "activity-streams",
         "fromDate" : "201201010000",
+        "toDate" : "201201010001"
         "publisher" : "twitter",
         "rules" : 
         [
@@ -57,10 +59,8 @@ details). the fromDate and toDate are in the format YYYYmmddHHMM:
                 "value" : "bieber"
             }
         ],
-        "serviceUsername" : "PUT_YOUR_TWITTER_HANDLE_HERE",
         "streamType" : "track",
         "title" : "BieberJob1",
-        "toDate" : "201201010001"
     }
 
 To create the job,
@@ -128,6 +128,18 @@ To see detailed information or download data filelist,
 specify URL with -u or add -v flag (``data_files.txt`` contains 
 only URLs from last job in list)
 
+
+ACCEPT/REJECT JOB
+=================
+After a job is quoted, you can accept or reject the job.  The job will not start until it is accepted.
+
+    $ ./accept_job -u https://historical.gnip.com:443/accounts/shendrickson/publishers/twitter/historicals/track/jobs/c9pe0day6h.json
+
+or 
+
+    $ ./reject_job -u https://historical.gnip.com:443/accounts/shendrickson/publishers/twitter/historicals/track/jobs/c9pe0day6h.json
+
+
 DOWNLOAD URLS OF FILES CONTAINING DATA
 ======================================
 To retrieve the file locations for the data files this job created on S3, pass 
@@ -161,6 +173,7 @@ the job URL with the -u flag (or if you used -u for this job previously, just us
 Filenames for the 131K files created on S3 by the job have been downloaded to a file in 
 the local directory, ``./data_files.txt``.
 
+
 DOWNLOAD DATA
 =============
 
@@ -171,16 +184,6 @@ To retrieve this data use the utility,
 
 This will lauch up to 8 simultaneousl cUrl connections to S3 to download the files 
 into a local ``./data/year/month/day/hour/...`` directory tree (see ``name_mangle.py`` for details).
-
-ACCEPT/REJECT JOB
-=================
-After a job is quoted, you can accept or reject the job.  The job will not start until it is accepted.
-
-    $ ./accept_job -u https://historical.gnip.com:443/accounts/shendrickson/publishers/twitter/historicals/track/jobs/c9pe0day6h.json
-
-or 
-
-    $ ./reject_job -u https://historical.gnip.com:443/accounts/shendrickson/publishers/twitter/historicals/track/jobs/c9pe0day6h.json
 
 The module ``gnip_historical.py`` provides additional functionality you can access programatically.
 
