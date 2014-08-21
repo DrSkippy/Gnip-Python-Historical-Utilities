@@ -15,7 +15,7 @@ Untilities are included to assist with each step.
 
 ------
 
-SETUP UTILITY
+Setup utility
 =============
 First, set up your Gnip credentials.  There is a simple utility to create the local credential 
 file named ".gnip".
@@ -40,7 +40,7 @@ You can, alternatively, set up a symlink called ``data`` within the repository d
 data destination.
 
 
-CREATE JOB
+Create job
 ==========
 Create a job description by editing the example JSON file provided (``bieber_job1.json``).
 
@@ -87,8 +87,8 @@ To get help,
                             Title of project, this title supercedes title in file.
 
 
-LIST JOBS, get JOB QUOTES and get JOB STATUS:
-=============================================
+List jobs, get quotes, status
+=============================
 
     $ ./list_jobs.py -h
     Usage: list_jobs.py [options]
@@ -129,8 +129,8 @@ specify URL with -u or add -v flag (``data_files.txt`` contains
 only URLs from last job in list)
 
 
-ACCEPT/REJECT JOB
-=================
+Accept / reject job
+==================
 After a job is quoted, you can accept or reject the job.  The job will not start until it is accepted.
 
     $ ./accept_job -u https://historical.gnip.com:443/accounts/shendrickson/publishers/twitter/historicals/track/jobs/c9pe0day6h.json
@@ -140,8 +140,8 @@ or
     $ ./reject_job -u https://historical.gnip.com:443/accounts/shendrickson/publishers/twitter/historicals/track/jobs/c9pe0day6h.json
 
 
-DOWNLOAD URLS OF FILES CONTAINING DATA
-======================================
+Download URLs of data files
+===========================
 To retrieve the file locations for the data files this job created on S3, pass 
 the job URL with the -u flag (or if you used -u for this job previously, just use -l--see help),
 
@@ -174,8 +174,8 @@ Filenames for the 131K files created on S3 by the job have been downloaded to a 
 the local directory, ``./data_files.txt``.
 
 
-DOWNLOAD DATA
-=============
+Download data files
+===================
 
 To retrieve this data use the utility,
 
