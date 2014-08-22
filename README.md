@@ -4,14 +4,15 @@ Python modules and associated command-line utilities for use with the [Gnip](htt
 
 The process for launching and retrieveing data for an historical historical job 
 requires only a few steps:
-    - set up credentials
-    - create job
-    - retrieve and review job quote
-    - accept or reject job
-    - download data files list
-    - download data
 
-Untilities are included to assist with each step.
+- set up credentials
+- create job
+- retrieve and review job quote
+- accept or reject job
+- download data files list
+- download data
+
+Utilities are included to assist with each step.
 
 ------
 
