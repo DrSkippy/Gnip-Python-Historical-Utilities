@@ -7,7 +7,7 @@ import re
 
 DATE_RE = re.compile("[0-9]{4}.[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}")
 DATEFMT = "%Y-%m-%dT%H:%M:%S"
-SHORT_DATEFMT = "%Y%m%d%H%M%S"
+SHORT_DATEFMT = "%Y%m%d%H%M"
 #
 class JobParameters(object):
     # Parses job description json from file or provides methods for building programatically

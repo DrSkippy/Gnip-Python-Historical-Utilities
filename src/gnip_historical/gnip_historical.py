@@ -1,24 +1,10 @@
 #!/usr/bin/env python
-import urllib2
-import base64
+import requests
 import json
 import sys
 import datetime
 from gnip_historical_job import *
 
-#
-class RequestWithMethod(urllib2.Request):
-    # extend request to include explicit method
-    def __init__(self, URL, method, data=None, headers={}):
-        self._method = method
-        urllib2.Request.__init__(self, URL, data, headers)
-
-    def get_method(self):
-        if self._method:
-            return self._method
-        else:
-            return urllib2.Request.get_method(self) 
-#
 class DataSetResults(object):
     def __init__(self, resDict):
         #print resDict.keys()
@@ -155,11 +141,12 @@ class Quote(object):
 class Status(object):
     """This and jobParameters have the same base class?"""
     def __init__(self, statusDict, gnipHist=None):
-        #print str(statusDict)
-        if statusDict is None:
+        if statusDict is None or statusDict["status"] == "error":
             self.status = 'Error retrieving Job status'
+            if "reason" in statusDict:
+                self.status += ": {}".format(statusDict["reason"])
             self.statusMessage = 'Please verify your connection parameters and network connection'
-            self.title = "N/A"
+            self.title = "{} -- {}".format(self.status, self.statusMessage)
             self.jobURL = None
         else:
             #
@@ -214,6 +201,8 @@ class Status(object):
         res += '*'*(8+len(self.title)) + '\n\n'
         if self.jobURL is None:
             return res
+        else:
+            res += 'Job URL: %s\n\n'%self.jobURL
         if self.acceptedAt is not None:
             res += 'Job accepted date ........ %s\n'%self.acceptedAt
         res += 'From date ................ %s\n'%self.fromDate
@@ -233,93 +222,106 @@ class Status(object):
 #
 class GnipHistorical(object):
     def __init__(self, UN, PWD, baseUrl, jParsObj = None):
-        self.base64string = base64.encodestring('%s:%s' % (UN, PWD)).replace('\n', '')
+        self.user_name = UN
+        self.password = PWD
         self.baseUrl = baseUrl
         self.jobPars = jParsObj
         self.status = None  # status object created when job status is retrieved
 
     def acceptJob(self, jobURL):
-        res = self.PUT(jobURL, json.dumps({"status":"accept"}))
-        if res is not None:
-            return res["status"]
-        else:
-            return "Already accepted or rejected that job?" 
+        return self.xJob(jobURL, {"status":"accept"})
 
     def rejectJob(self, jobURL):
-        res = self.PUT(jobURL, json.dumps({"status":"reject"}))
-        if res is not None:
-            return res["status"]
-        else:
-            return "Already accepted or rejected that job?" 
+        return self.xJob(jobURL, {"status":"reject"})
 
-    def PUT(self, URL, msg):
-        return self.POST_PUT(URL, msg, 'PUT')
+    def xJob(self, jobURL, payload):
+        res = None
+        try:
+            s = requests.Session()
+            s.auth = (self.user_name, self.password)
+            s.headers = {'content-type':'application/json'}
+            res = s.put(jobURL, data=json.dumps(payload))
+        except requests.exceptions.ConnectionError, e:
+            print >> sys.stderr, "Server request failed with message {}".format(e)
+        except requests.exceptions.HTTPError, e:
+            print >> sys.stderr, "Server request failed with message {}".format(e)
+        if res is not None and res.status_code == 200:
+            return "Job {}ed successfully.".format(payload["status"])
+        else:
+            return "Request failed with response code ({}): {}".format(res.status_code, res.text)
 
     def createJob(self):
-        res = self.POST(self.baseUrl + "jobs.json", str(self.jobPars))
-        return Status(res)
-
-    def POST(self, URL, msg):
-        return self.POST_PUT(URL, msg, 'POST')
-
-    def POST_PUT(self, URL, msg, method):
+        res = None
         try:
-            req = RequestWithMethod(URL, method, data=msg)
-            req.add_header('Content-type', 'application/json')
-            req.add_header("Authorization", "Basic %s" % self.base64string)
-            response = urllib2.urlopen(req)
-            res = response.read()
-        except urllib2.URLError, reason:
-            sys.stderr.write("Check parameters, URL and authentication and validate job JSON. (%s)\n\n\n"%reason)
-            return None
-        try:
-            return json.loads(res)
-        except ValueError:
-            return {"status": "Status Error: Server failed to return valid JSON object"}
+            s = requests.Session()
+            s.auth = (self.user_name, self.password)
+            s.headers = {'content-type':'application/json'}
+            res = s.post(self.baseUrl + "jobs.json", data=str(self.jobPars))
+        except requests.exceptions.ConnectionError, e:
+            print >> sys.stderr, "Server request failed with message {}".format(e)
+        except requests.exceptions.HTTPError, e:
+            print >> sys.stderr, "Server request failed with message {}".format(e)
+        return Status(res.json())
 
     def listJobs(self):
-        job = self.GET(self.baseUrl + "jobs.json")
-        if job is not None and "jobs" in job:
-            for x in job["jobs"]:
-                yield Status(x)
-
-    def GET(self, jobURL):
-        try:    
-            req = RequestWithMethod(jobURL, 'GET')
-            req.add_header('Content-type', 'application/json')
-            req.add_header("Authorization", "Basic %s" % self.base64string)
-            response = urllib2.urlopen(req)
-            res = response.read()
-        except urllib2.URLError, reason:
-            sys.stderr.write("Check parameters, URL and authentication. (%s)\n\n\n"%reason)
-            return None
+        """Generator of jobs from the server. Jobs are generated in order and include every status
+        type. The number of items returned depends on the history in the server job log."""
+        res = None
         try:
-            return json.loads(res)
-        except ValueError:
-            return {"status": "Status Error: Server failed to return valid JSON object"}
+            s = requests.Session()
+            s.auth = (self.user_name, self.password)
+            res = s.get(self.baseUrl + "jobs.json")
+        except requests.exceptions.ConnectionError, e:
+            print >> sys.stderr, "Server request failed with message {}".format(e)
+        except requests.exceptions.HTTPError, e:
+            print >> sys.stderr, "Server request failed with message {}".format(e)
+        if res is not None and "jobs" in res.json():
+            for x in res.json()["jobs"]:
+                yield Status(x)
+        else:
+            yield {"status": "Status Error: Server failed to return valid JSON object"}
         
     def getDataURLDict(self, URL):
+        """Return job record data download urls for the specified job. The url proivided should be the 
+        specific url with job id provided by the system and must be in the current job
+        log. That is, the url must represent a valid job that would be retrieved with e.g. listJobs."""
+        res = None
         try:
-            res = self.GET(URL)
-        except ValueError:
-            sys.stderr.write("No job matching the URL. (%s)\n"%URL)
-            res = None 
-        except AttributeError:
-            sys.stderr.write("Url failed to return results. (%s)\n"%URL)
-            res = None
-        except TypeError:
-            sys.stderr.write("Url failed to return results. (%s)\n"%URL)
-            res = None
-        return res
+            s = requests.Session()
+            s.auth = (self.user_name, self.password)
+            res = s.get(URL)
+        except requests.exceptions.ConnectionError, e:
+            print >> sys.stderr, "Server request failed with message {}".format(e)
+        except requests.exceptions.HTTPError, e:
+            print >> sys.stderr, "Server request failed with message {}".format(e)
+        if res is not None:
+            return res.json()
+        else:
+            return {"status": "Status Error: Server failed to return valid JSON object"}
 
     def getJobStatusDict(self, jobURL = None):
+        """Return job record for the specified job. The url proivided should be the 
+        specific url with job id provided by the system and must be in the current job
+        log. That is, the url must represent a valid job that would be retrieved with e.g. listJobs."""
+        res = None
         if jobURL is None:
             try:
                 jobURL = self.status.jobURL
             except:
                 sys.stderr.write("No job specified.\n")
-                return None
-        return self.GET(jobURL)
+                return res
+        try:
+            s = requests.Session()
+            s.auth = (self.user_name, self.password)
+            res = s.get(jobURL)
+        except requests.exceptions.ConnectionError, e:
+            print >> sys.stderr, "Server request failed with message {}".format(e)
+        except requests.exceptions.HTTPError, e:
+            print >> sys.stderr, "Server request failed with message {}".format(e)
+        if res is not None:
+            return res.json()
+        else:
+            return {"status": "Status Error: Server failed to return valid JSON object"}
 
     def getJobStatus(self, jobURL = None):
         self.jobStatus(jobURL)
