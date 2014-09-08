@@ -229,12 +229,15 @@ class GnipHistorical(object):
         self.status = None  # status object created when job status is retrieved
 
     def acceptJob(self, jobURL):
+        """Accept a quoted job."""
         return self.xJob(jobURL, {"status":"accept"})
 
     def rejectJob(self, jobURL):
+        """Reject a quoted job."""
         return self.xJob(jobURL, {"status":"reject"})
 
     def xJob(self, jobURL, payload):
+        """Make the server request to accept or reject a job."""
         res = None
         try:
             s = requests.Session()
@@ -246,7 +249,7 @@ class GnipHistorical(object):
         except requests.exceptions.HTTPError, e:
             print >> sys.stderr, "Server request failed with message {}".format(e)
         if res is not None and res.status_code == 200:
-            return "Job {}ed successfully.".format(payload["status"])
+            return "Job {}ed successfully".format(payload["status"])
         else:
             return "Request failed with response code ({}): {}".format(res.status_code, res.text)
 
@@ -280,7 +283,7 @@ class GnipHistorical(object):
                 yield Status(x)
         else:
             yield {"status": "Status Error: Server failed to return valid JSON object"}
-        
+
     def getDataURLDict(self, URL):
         """Return job record data download urls for the specified job. The url proivided should be the 
         specific url with job id provided by the system and must be in the current job
