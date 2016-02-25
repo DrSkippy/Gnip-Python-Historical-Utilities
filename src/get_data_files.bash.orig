@@ -24,16 +24,19 @@ if [ ! -e ./data ]; then
 fi
 
 echo "Starting download at $(date)"
-echo "Copying $(wc -l ./data_files.txt) files:"
+echo "Generating file location for $(wc -l ./data_files.txt) files:"
 
-while read fn
- do
- waitForNProcs
- filen=$(echo $fn | $mangler)
- echo "  copying file $fn to $filen..."
- cmd="$procName $fn --create-dirs -o ./data/$filen"
- #echo $cmd
- exec $cmd &
-done < ./data_files.txt
+# get final file names
+cat ./data_files.txt | $mangler > data_files_tmp.txt
+
+# copy files
+echo "Copying $(wc -l ./data_files.txt) files:"
+while read fn_tuple; do
+    # comment-out waitForNProcs if your files are small
+    waitForNProcs
+    $procName `echo $fn_tuple | awk '{print $1}'` --create-dirs -o ./data/`echo $fn_tuple | awk '{print $2}'` &
+    echo "  copying file $fn to $filen..."
+done < ./data_files_tmp.txt
+rm -f data_files_tmp.txt
 
 echo "Download completed at $(date)"
