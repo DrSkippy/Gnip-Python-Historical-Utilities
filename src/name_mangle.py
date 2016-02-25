@@ -8,4 +8,4 @@ for line in sys.stdin:
     # https://archive.replay.snapshots.review.s3.amazonaws.com/snapshots/twitter/track/activity-streams/shendrickson/2012/08/13/20090101-20100101_c9pe0day6h/2009/12/31/23/50_activities.json.gz?AWSAccessKeyId=AKIAI3ZYYXK57KIWDGHQ&Expires=1347654202&Signature=ej8iMVWVfYZE6qVGi%2FU%2FY5clnb0%3D
     infile = line.split("?")[0]
     # https://archive.replay.snapshots.review.s3.amazonaws.com/snapshots/twitter/track/activity-streams/shendrickson/2012/08/13/20090101-20100101_c9pe0day6h/2009/12/31/23/50_activities.json.gz
-    print dateRE.search(infile).group(0) + nameRE.search(infile).group(0) + ".json.gz"
+    sys.stdout.write("{} {}\n".format(line.rstrip('\n'), dateRE.search(infile).group(0) + nameRE.search(infile).group(0) + ".json.gz") )
