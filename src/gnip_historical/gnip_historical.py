@@ -259,7 +259,7 @@ class GnipHistorical(object):
             s = requests.Session()
             s.auth = (self.user_name, self.password)
             s.headers = {'content-type':'application/json'}
-            res = s.post(self.baseUrl + "jobs.json", data=str(self.jobPars))
+            res = s.post(self.baseUrl + "publishers/twitter/jobs.json", data=str(self.jobPars))
         except requests.exceptions.ConnectionError, e:
             print >> sys.stderr, "Server request failed with message {}".format(e)
         except requests.exceptions.HTTPError, e:
@@ -273,7 +273,7 @@ class GnipHistorical(object):
         try:
             s = requests.Session()
             s.auth = (self.user_name, self.password)
-            res = s.get(self.baseUrl + "jobs.json")
+            res = s.get(self.baseUrl + "publishers/twitter/jobs.json")
         except requests.exceptions.ConnectionError, e:
             print >> sys.stderr, "Server request failed with message {}".format(e)
         except requests.exceptions.HTTPError, e:

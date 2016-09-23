@@ -30,8 +30,8 @@ while pwd <> pwd1:
 	pwd1 = getpass.getpass("Password again: ")
 config.set('creds', 'pwd', pwd)
 config.add_section('endpoint')
-an = raw_input("Endpoint URL. Enter your Account Name (eg https://historical.gnip.com/accounts/<account name>/): ")
-config.set('endpoint', 'url', "https://historical.gnip.com/accounts/%s/"%an)
+an = raw_input("Endpoint URL. Enter your Account Name (eg https://gnip-api.gnip.com/historical/powertrack/accounts/<account name>/): ")
+config.set('endpoint', 'url', "https://gnip-api.gnip.com/historical/powertrack/accounts/%s/"%an)
 config.add_section('tmp')
 config.set('tmp','prevUrl', "")
 with open("./.gnip","wb") as f:
