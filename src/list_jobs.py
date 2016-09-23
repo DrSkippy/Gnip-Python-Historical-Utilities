@@ -18,24 +18,24 @@ class ListJobs(GnipHistoricalCmd):
         else:
             if self.options.verbose:
                 status = self.gnipHistorical.getJobStatus(status.jobURL)
-                print str(status)
+                print(str(status))
                 if status.result is not None:
                     status.result.write()
             else:
-                print "#"*25
-                print "TITLE:    ",status.title
-                print "STATUS:   ",status.status
-                print "PROGRESS: ",status.percentComplete,"%"
-                print "JOB URL:  ",status.jobURL
+                print("#"*25)
+                print("TITLE:    ",status.title)
+                print("STATUS:   ",status.status)
+                print("PROGRESS: ",status.percentComplete,"%")
+                print("JOB URL:  ",status.jobURL)
                 if self.options.prevUrl or self.options.url is not None:
                     if status.result is not None:
                         print
-                        print str(status.quote)
-                        print str(status.result)
-                        print "Writing files to data_files.txt..."
+                        print(str(status.quote))
+                        print(str(status.result))
+                        print("Writing files to data_files.txt...")
                         status.result.write()
                 elif status.status.lower().startswith("delivered"):
-                    print 'Data files available, use "-v, -u or -l" flag to download files list.'
+                    print('Data files available, use "-v, -u or -l" flag to download files list.')
 
     def __call__(self):
         if self.userUrl is None:
