@@ -1,13 +1,17 @@
 #!/usr/bin/env python
-import ConfigParser
+try: 
+    from ConfigParser import ConfigParser
+except ImportError:
+    from configparser import ConfigParser
+
 from optparse import OptionParser
-from gnip_historical import *
+from .gnip_historical import *
 
 DEFAULT_FILE_NAME='./.gnip'
 
 class GnipHistoricalCmd(object):
     def __init__(self, jobPar=None):
-        self.config = ConfigParser.ConfigParser()
+        self.config = ConfigParser()
         self.config.read(DEFAULT_FILE_NAME)
         un = self.config.get('creds', 'un')
         pwd = self.config.get('creds', 'pwd')
@@ -39,7 +43,10 @@ class GnipHistoricalCmd(object):
             self.userUrl = url
         else:
             self.userUrl = None
-        self.config.set('tmp','prevUrl',self.userUrl)
-        with open(DEFAULT_FILE_NAME, 'wb') as self.configfile:
+        try:
+            self.config.set('tmp','prevUrl',self.userUrl)
+        except TypeError:
+            pass
+        with open(DEFAULT_FILE_NAME, 'w') as self.configfile:
             self.config.write(self.configfile)
 
